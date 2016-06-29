@@ -91,6 +91,166 @@
 		</style>
 	</section>
 
+	<section class="slide">
+		<h2>Что такое RxJS</h2>
+		<div class="next">
+			lodash for events
+		</div>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>function observable() {</code>
+			<code>  return 1;</code>
+			<code>  setTimeout(() => {</code>
+			<code>    return 42;</code>
+			<code>  }, 1000);</code>
+			<code>}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>function observable(<strong>observer</strong>) {</code>
+			<code>  <strong>observer.onNext(1);</strong></code>
+			<code>  setTimeout(() => {</code>
+			<code>    <strong>observer.onNext(42);</strong></code>
+			<code>  }, 1000);</code>
+			<code>}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>observable({</code>
+			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
+			<code>});</code>
+			<code class="comment next">// Next value: 1</code>
+			<code class="comment next">// Next value: 42</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>function observable(observer) {</code>
+			<code>  let i = 0;</code>
+			<code>  const id = setInterval(() => {</code>
+			<code>    observer.onNext(++i);</code>
+			<code>  }, 1000);</code>
+			<code>  return () => clearInterval(id);</code>
+			<code>}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>const unsubscribe = observable({</code>
+			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
+			<code>});</code>
+			<code class="comment next">// Next value: 1</code>
+			<code class="comment next">// Next value: 2</code>
+			<code class="comment next">// и тд</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>function filter(observable, fn) {</code>
+			<code>  return function(observer) {</code>
+			<code>    return observable({</code>
+			<code>      onNext: value => fn(value) && observer.next(value)</code>
+			<code>    });</code>
+			<code>  }</code>
+			<code>}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>const oddNumbers = filter(observable, v => v % 2 === true);</code>
+			<code>const unsubscribe = oddNumbers({</code>
+			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
+			<code>});</code>
+			<code class="comment next">// Next value: 1</code>
+			<code class="comment next">// Next value: 3</code>
+			<code class="comment next">// и тд</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>function map(observable, fn) {</code>
+			<code>  return function(observer) {</code>
+			<code>    return observable({</code>
+			<code>      onNext: value => observer.next(fn(value))</code>
+			<code>    });</code>
+			<code>  }</code>
+			<code>}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>const bigNumbers = map(observable, v => v * 100);</code>
+			<code>const unsubscribe = bigNumbers({</code>
+			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
+			<code>});</code>
+			<code class="comment next">// Next value: 100</code>
+			<code class="comment next">// Next value: 200</code>
+			<code class="comment next">// и тд</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>const oddNumbers = filter(observable, v => v % 2 === true)</code>
+			<code>const bigOddNumbers = map(oddNumbers, v => v * 100);</code>
+			<code>const unsubscribe = bigNumbers({</code>
+			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
+			<code>});</code>
+			<code class="comment next">// Next value: 100</code>
+			<code class="comment next">// Next value: 300</code>
+		</pre>
+	</section>
+
+	<!-- <section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>function observable(observer) {</code>
+			<code>	observer.onNext(1);</code>
+			<code>	setTimeout(() => {</code>
+			<code>		observer.onNext(42);</code>
+			<code>		<strong>observer.onComplite();</strong></code>
+			<code>	}, 1000);</code>
+			<code>}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>observable({</code>
+			<code>	onNext: value => console.log(`Next value: ${value}`);</code>
+			<code>	<strong>onComplite: () => console.log('finish');</strong></code>
+			<code>});</code>
+			<code class="comment">// Next value: 1</code>
+			<code class="comment">// Next value: 42</code>
+			<code class="comment next">// finish</code>
+		</pre>
+	</section> -->
+
+	<section class="slide"></section>
+
 	<div class="progress"></div>
 	<script src="shower/shower.min.js"></script>
 	<!-- Copyright © 2015 Yours Truly, Famous Inc. -->
