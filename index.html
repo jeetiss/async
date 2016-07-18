@@ -10,11 +10,11 @@
 <body class="shower list">
 	<header class="caption">
 		<h1>RxJS</h1>
-		<p>Ассинхронное программирование</p>
+		<p>или еще одна либа в проекте</p>
 	</header>
 	<section class="slide" id="cover">
 		<h2><img src="pictures/logo.png" id="logo"/>RxJS</h2>
-		<p>Ассинхронное программирование</p>
+		<p>или еще одна либа в проекте</p>
 		<img src="pictures/bg.jpg" alt="" class="cover" id="bg">
 		<style>
 			#bg {
@@ -42,19 +42,22 @@
 	</section>
 
 	<section class="slide">
-		<h2>Ассинхронные операции</h2>
+		<h2>Асинхронные операции</h2>
 		<ul>
 			<li class="next">AJAX</li>
 			<li class="next">DOM события</li>
-			<li class="next">Sockets</li>
-			<li class="next">Workers</li>
+			<li class="next">Сокеты</li>
+			<li class="next">Воркеры</li>
 			<li class="next">Анимации</li>
 		</ul>
 	</section>
 
+	<section class="slide">
+		<h2>Callbacks</h2>
+	</section>
 
 	<section class="slide">
-		<h2>Callback hell</h2>
+		<h2>Callbacks hell</h2>
 		<pre>
 			<code>doSomeStaff(url, callback) {</code>
 			<code>	doSomeAnotherStaff(var, data => {</code>
@@ -69,9 +72,9 @@
 	<section class="slide">
 		<h2>Promise</h2>
 		<ul>
-			<li class="next">Single value</li>
-			<li class="next">Immutable</li>
-			<li class="next">Guaranteed Future</li>
+			<li class="next">Одно значение во времени</li>
+			<li class="next">Неизменяемые</li>
+			<li class="next">Нельзя отменить</li>
 		</ul>
 	</section>
 
@@ -80,22 +83,19 @@
 		<ul class="next">
 			<li>AJAX</li>
 			<li id="hide">DOM события</li>
-			<li id="hide">Sockets</li>
-			<li id="hide">Workers</li>
+			<li id="hide">сокеты</li>
+			<li id="hide">Воркеры</li>
 			<li id="hide">Анимации</li>
 		</ul>
 		<style>
 			#hide {
-				opacity: 0.3;
+				text-decoration: line-through;
 			}
 		</style>
 	</section>
 
 	<section class="slide">
 		<h2>Что такое RxJS</h2>
-		<div class="next">
-			lodash for events
-		</div>
 	</section>
 
 	<section class="slide">
@@ -113,10 +113,31 @@
 	<section class="slide">
 		<h2>&nbsp;</h2>
 		<pre>
+			<code>function observable() {</code>
+			<code>  return 1;</code>
+			<code>  <strong>setTimeout(() => {</strong></code>
+			<code>    <strong>return 42;</strong></code>
+			<code>  <strong>}, 1000);</strong></code>
+			<code>}</code>
+		</pre>
+		<div id="qqq">dead code</div>
+		<style>
+			#qqq {
+				position: absolute;
+				top: 41%;
+				left: 47%;
+				font-size: 50px;
+			}
+		</style>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
 			<code>function observable(<strong>observer</strong>) {</code>
-			<code>  <strong>observer.onNext(1);</strong></code>
+			<code>  <strong>observer(1);</strong></code>
 			<code>  setTimeout(() => {</code>
-			<code>    <strong>observer.onNext(42);</strong></code>
+			<code>    <strong>observer(42);</strong></code>
 			<code>  }, 1000);</code>
 			<code>}</code>
 		</pre>
@@ -125,9 +146,7 @@
 	<section class="slide">
 		<h2>&nbsp;</h2>
 		<pre>
-			<code>observable({</code>
-			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
-			<code>});</code>
+			<code>observable(x => console.log(x));</code>
 			<code class="comment next">// Next value: 1</code>
 			<code class="comment next">// Next value: 42</code>
 		</pre>
@@ -138,9 +157,8 @@
 		<pre>
 			<code>function observable(observer) {</code>
 			<code>  let i = 0;</code>
-			<code>  const id = setInterval(() => {</code>
-			<code>    observer.onNext(++i);</code>
-			<code>  }, 1000);</code>
+			<code>  const id = setInterval(() => observer(++i), 1000);</code>
+			<code> </code>
 			<code>  return () => clearInterval(id);</code>
 			<code>}</code>
 		</pre>
@@ -149,11 +167,11 @@
 	<section class="slide">
 		<h2>&nbsp;</h2>
 		<pre>
-			<code>const unsubscribe = observable({</code>
-			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
-			<code>});</code>
+			<code>const disposable = observable(x => console.log(x));</code>
 			<code class="comment next">// Next value: 1</code>
 			<code class="comment next">// Next value: 2</code>
+			<code class="comment next">// Next value: 3</code>
+			<code class="comment next">// Next value: 4</code>
 			<code class="comment next">// и тд</code>
 		</pre>
 	</section>
@@ -163,9 +181,7 @@
 		<pre>
 			<code>function filter(observable, fn) {</code>
 			<code>  return function(observer) {</code>
-			<code>    return observable({</code>
-			<code>      onNext: value => fn(value) && observer.next(value)</code>
-			<code>    });</code>
+			<code>    return observable(x => fn(x) && observer(x));</code>
 			<code>  }</code>
 			<code>}</code>
 		</pre>
@@ -174,9 +190,8 @@
 	<section class="slide">
 		<h2>&nbsp;</h2>
 		<pre>
-			<code>const oddNumbers = filter(observable, v => v % 2 === true);</code>
-			<code>const unsubscribe = oddNumbers({</code>
-			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
+			<code>const oddNumbers = filter(observable, v => v % 2 === 0);</code>
+			<code>const disposable = oddNumbers(x => console.log(x);</code>
 			<code>});</code>
 			<code class="comment next">// Next value: 1</code>
 			<code class="comment next">// Next value: 3</code>
@@ -189,9 +204,7 @@
 		<pre>
 			<code>function map(observable, fn) {</code>
 			<code>  return function(observer) {</code>
-			<code>    return observable({</code>
-			<code>      onNext: value => observer.next(fn(value))</code>
-			<code>    });</code>
+			<code>    return observable(x => observer(fn(x)));</code>
 			<code>  }</code>
 			<code>}</code>
 		</pre>
@@ -201,9 +214,7 @@
 		<h2>&nbsp;</h2>
 		<pre>
 			<code>const bigNumbers = map(observable, v => v * 100);</code>
-			<code>const unsubscribe = bigNumbers({</code>
-			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
-			<code>});</code>
+			<code>const disposable = bigNumbers(x => console.log(x));</code>
 			<code class="comment next">// Next value: 100</code>
 			<code class="comment next">// Next value: 200</code>
 			<code class="comment next">// и тд</code>
@@ -215,39 +226,63 @@
 		<pre>
 			<code>const oddNumbers = filter(observable, v => v % 2 === true)</code>
 			<code>const bigOddNumbers = map(oddNumbers, v => v * 100);</code>
-			<code>const unsubscribe = bigNumbers({</code>
-			<code>  onNext: value => console.log(`Next value: ${value}`);</code>
-			<code>});</code>
+			<code>const disposable = bigNumbers(x => console.log(x));</code>
 			<code class="comment next">// Next value: 100</code>
 			<code class="comment next">// Next value: 300</code>
 		</pre>
 	</section>
 
-	<!-- <section class="slide">
-		<h2>&nbsp;</h2>
-		<pre>
-			<code>function observable(observer) {</code>
-			<code>	observer.onNext(1);</code>
-			<code>	setTimeout(() => {</code>
-			<code>		observer.onNext(42);</code>
-			<code>		<strong>observer.onComplite();</strong></code>
-			<code>	}, 1000);</code>
-			<code>}</code>
-		</pre>
-	</section>
-
 	<section class="slide">
-		<h2>&nbsp;</h2>
-		<pre>
-			<code>observable({</code>
-			<code>	onNext: value => console.log(`Next value: ${value}`);</code>
-			<code>	<strong>onComplite: () => console.log('finish');</strong></code>
-			<code>});</code>
-			<code class="comment">// Next value: 1</code>
-			<code class="comment">// Next value: 42</code>
-			<code class="comment next">// finish</code>
-		</pre>
-	</section> -->
+		<h2>Observable методы</h2>
+		<div id="row">
+			<ul class="next">
+				<li>combineLatest</li>
+				<li>concat</li>
+				<li>concatMap</li>
+				<li>connect</li>
+				<li>debounce</li>
+				<li>delay</li>
+				<li>dematerialize</li>
+			</ul>
+			<ul class="next">
+				<li>distinctUntilChanged</li>
+				<li>do</li>
+				<li>filter</li>
+				<li>finally</li>
+				<li>flatMap</li>
+				<li>flatMapLatest</li>
+				<li>map</li>
+			</ul>
+
+			<ul class="next">
+				<li>merge</li>
+				<li>mergeAll</li>
+				<li>multicast</li>
+				<li>publish</li>
+				<li>repeat</li>
+				<li>replay</li>
+				<li>retry</li>
+			</ul>
+			<ul class="next">
+				<li>sample</li>
+				<li>scan</li>
+				<li>select</li>
+				<li>skip</li>
+				<li>startWith</li>
+				<li>subscribe</li>
+				<li>switch</li>
+			</ul>
+		</div>
+		<style type="text/css">
+			#row {
+				display: flex;
+			}
+
+			#row ul {
+				padding-right: 50px;
+			}
+		</style>
+	</section>
 
 	<section class="slide"></section>
 
