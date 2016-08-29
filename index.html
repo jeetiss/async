@@ -6,6 +6,7 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen-4x3.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.lite.js"></script>
 </head>
 <body class="shower list">
 	<header class="caption">
@@ -43,20 +44,96 @@
 
 	<section class="slide">
 		<h2>Reactivnoe?</h2>
-		<ul>
-			<li class="next">*типа картинка экселя*</li>
-		</ul>
+		<div class="imgc">
+			<img src="pictures/ex.png">
+		</div>
+		<style type="text/css">
+		.imgc {
+			display: flex;
+			justify-content: center;
+			margin-top: 165px;
+		}
+		</style>
 	</section>
 
 	<section class="slide">
-		<h2>WatchValue</h2>
-		<ul>
-			<li class="next">Что это и плюсы</li>
-		</ul>
+		<h2>Reactivnoe?</h2>
+		<div class="imgc">
+			<img src="pictures/exr.png">
+		</div>
+		<style type="text/css">
+		.imgc {
+			display: flex;
+			justify-content: center;
+			margin-top: 165px;
+		}
+		</style>
 	</section>
 
 	<section class="slide">
-		<h2>WatchValue</h2>
+		<h2>Reactivnoe?</h2>
+		<div class="imgc">
+			<img src="pictures/reactiv.png">
+		</div>
+		<style type="text/css">
+		.imgc {
+			display: flex;
+			justify-content: center;
+			margin-top: 165px;
+		}
+		</style>
+	</section>
+
+	<section class="slide">
+		<h2>JS</h2>
+		<pre>
+			<code>let a = 10;</code>
+			<code>let b = 2;</code>
+			<code>const sum = a + b;</code>
+			<code>&nbsp;</code>
+			<code>&nbsp;</code>
+			<code>console.log(sum);</code>
+			<code class="comment next">// 12</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>JS</h2>
+		<pre>
+			<code>let a = 10;</code>
+			<code>let b = 2;</code>
+			<code>const sum = a + b;</code>
+			<code><strong>a = 100;</strong></code>
+			<code>&nbsp;</code>
+			<code>console.log(sum);</code>
+			<code class="comment next">// 12</code>
+		</pre>
+		<div class="next imgl">
+			<img src="pictures/fu.jpg">
+		</div>
+		<style type="text/css">
+		.imgl {
+			position: absolute;
+			top: 41%;
+			left: 47%;
+		}
+		</style>
+	</section>
+
+	<section class="slide">
+		<h2>WatchedValue</h2>
+		<pre>
+			<code>const a = new WatchedValue(10);</code>
+			<code>const b = new WatchedValue(2);</code>
+			<code>const subscriber = () => console.log(a.value() + b.value());</code>
+			<code>a.subscribe(subscriber); </code>
+			<code>b.subscribe(subscriber), { callWithLatest: true });</code>
+			<code>a.setValue(100);</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>WatchedValue</h2>
 		<ul>
 			<li class="next">Минусы</li>
 		</ul>
@@ -65,7 +142,7 @@
 	<section class="slide">
 		<h2>Observable</h2>
 		<ul>
-			<li class="next">что это и почему нет минусов WatchValue</li>
+			<li class="next">что это и почему нет минусов WatchedValue</li>
 		</ul>
 	</section>
 
