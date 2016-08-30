@@ -7,6 +7,101 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen-4x3.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.lite.js"></script>
+	 <script type="text/javascript">
+
+const { Observable } = Rx;
+
+function HTML(template) {
+    const buffer = document.createElement('div');
+    buffer.innerHTML = template;
+    return buffer.children[0];
+}
+
+function createMarbleDiagram(obs$, cont) {
+    const raf$ = Observable.create(observer => {
+        let rafId;
+        let time = performance.now();
+
+        const step = () => {
+            const now = performance.now()
+            const dt = now - time;
+            time = now;
+            observer.onNext(dt);
+
+            rafId = requestAnimationFrame(step);
+        }
+
+        rafId = requestAnimationFrame(step);
+
+        return () => cancelAnimationFrame(rafId); 
+    })
+
+    const diagramTemplate = () => `
+    <div class="marble">
+        <div class="os"></div>
+    </div>`
+
+    const eventTemplate = (name) => `
+    <div class="event">${name}</div>`
+
+    const diagram = HTML(diagramTemplate())
+    cont.appendChild(diagram);
+
+    const createEvent = value => {
+        const event = HTML(eventTemplate(value));
+        diagram.appendChild(event);
+
+        const speed = 0.1
+        const position = 0;
+
+        const update$ = raf$.map(function(dt) {
+            return dt * speed;
+        }).scan(function(x, y) {
+            return x + y;
+        }, position).takeWhile(x => x > -2 && x < 900).doOnCompleted(() => event.parentNode.removeChild(event));
+
+        return update$.withLatestFrom(Observable.of(event), (position, node) => ({position, node}));
+    }
+
+    const marble$ = obs$.flatMap(createEvent);
+
+    return marble$.subscribe(({position, node}) => {
+        // node.style.left = `${position}%`;
+        node.style.transform = `translateX(-${position}px)`;
+    });
+}
+
+</script>
+  <style type="text/css">
+.os {
+    position: relative;
+    top: 31px;
+    z-index: -1;
+    height: 2px;
+    background-color: black;
+}
+
+.event {
+    padding: 4px 14px;
+    box-sizing: border-box;
+    border: 2px solid;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0px;
+    min-width: 60px;
+    left: 100%;
+    background-color: white;
+}
+
+.marble {
+    overflow: hidden;
+    position: relative;
+    height: 62px;
+}
+    </style>
 </head>
 <body class="shower list">
 	<header class="caption">
@@ -134,16 +229,122 @@
 
 	<section class="slide">
 		<h2>WatchedValue</h2>
+		<pre>
+			<code>const a = new WatchedValue(10);</code>
+			<code>const b = new WatchedValue(2);</code>
+			<code>const subscriber = () => console.log(a.value() + b.value());</code>
+			<code><strong>a.subscribe(subscriber); </strong></code>
+			<code><strong>b.subscribe(subscriber), { callWithLatest: true });</strong></code>
+			<code>a.setValue(100);</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>WatchedValue</h2>
+		<pre>
+			<code>const <strong>a</strong> = new WatchedValue(10);</code>
+			<code>const <strong>b</strong> = new WatchedValue(2);</code>
+			<code>const subscriber = () => console.log(<strong>a.value()</strong> + <strong>b.value()</strong>);</code>
+			<code>a.subscribe(subscriber);</code>
+			<code>b.subscribe(subscriber), { callWithLatest: true });</code>
+			<code>a.setValue(100);</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>еще раз минусы WatchedValue</h2>
 		<ul>
-			<li class="next">Минусы</li>
+			<li class="next">Неудобная работа с подписками/отписками</li>
+			<li class="next">Отсутсвие операций модификации/комбинирования</li>
+			<li class="next">ошибки?</li>
 		</ul>
+		<div class="next imgl">
+			<img src="pictures/fu.jpg">
+		</div>
+		<style type="text/css">
+		.imgl {
+			position: absolute;
+			top: 41%;
+			left: 47%;
+		}
+		</style>
 	</section>
 
 	<section class="slide">
 		<h2>Observable</h2>
-		<ul>
-			<li class="next">что это и почему нет минусов WatchedValue</li>
-		</ul>
+		<pre>
+			<code>const a$ = new Subject();</code>
+			<code>const b$ = new Subject();</code>
+			<code>const sum$ = Observable.combineLatest(a$, b$, (a, b) => a + b);</code>
+			<code>&nbsp;</code>
+			<code>sum$.subscribe(x => console.log(x));</code>
+			<code>&nbsp;</code>
+			<code>a$.onNext(10);</code>
+			<code>b$.onNext(2);</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>Observable</h2>
+		<pre>
+			<code>const a$ = new <strong>Subject()</strong>;</code>
+			<code>const b$ = new <strong>Subject()</strong>;</code>
+			<code>const sum$ = Observable.combineLatest(a$, b$, (a, b) => a + b);</code>
+			<code>&nbsp;</code>
+			<code>sum$.subscribe(x => console.log(x));</code>
+			<code>&nbsp;</code>
+			<code>a$.onNext(10);</code>
+			<code>b$.onNext(2);</code>
+		</pre>
+	</section>
+
+
+	<section class="slide">
+		<h2>Observable</h2>
+		<pre>
+			<code>const a$ = new Subject();</code>
+			<code>const b$ = new Subject();</code>
+			<code>const sum$ = Observable.<strong>combineLatest</strong>(a$, b$, (a, b) => a + b);</code>
+			<code>&nbsp;</code>
+			<code>sum$.subscribe(x => console.log(x));</code>
+			<code>&nbsp;</code>
+			<code>a$.onNext(10);</code>
+			<code>b$.onNext(2);</code>
+		</pre>
+	</section>
+
+	<section class="slide exampleCL">
+		<h2>combineLatest</h2>
+		<div class="exampleCL">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">b$:</div>
+				<div class="stream__marble js-second"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">combineLatest(a$, b$, (a, b) => a + b):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			const example = document.querySelector('.exampleCL')
+			const contFirst = example.querySelector('.js-first');
+			const contSecond = example.querySelector('.js-second');
+			const contLatest = example.querySelector('.js-last');
+			const click$ = Observable.fromEvent(example, 'click', () => 1).scan((x, y) => x + y, 0);
+			const button$ = Observable.fromEvent(document, 'keypress', e => e.keyCode).filter(v => v >= 48 && v <= 57).map(v => v - 48);
+			const sum$ = Observable.combineLatest(click$, button$, (a, b) => a + b);
+
+			createMarbleDiagram(click$, contFirst);
+			createMarbleDiagram(button$, contSecond);
+			createMarbleDiagram(sum$, contLatest);
+		</script>
 	</section>
 
 	<section class="slide">
