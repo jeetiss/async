@@ -11,6 +11,17 @@
 
 const { Observable } = Rx;
 
+function keys() {
+	return Observable.fromEvent(document, 'keypress', e => e.keyCode)
+}
+
+function rand(frm = 0, to = 10) {
+	return Observable.create(observer => {
+		observer.onNext(Math.round(Math.random() * (to - frm) + frm));
+		observer.onCompleted();
+	});
+}
+
 function HTML(template) {
     const buffer = document.createElement('div');
     buffer.innerHTML = template;
@@ -138,6 +149,29 @@ function createMarbleDiagram(obs$, cont) {
 	</section>
 
 	<section class="slide">
+		<h2>FRP</h2>
+		<div class="next">
+			<p>функциональное</p>
+			<p>реактивное</p>
+			<p>программирование</p>
+		</div>
+	</section>
+
+	<section class="slide">
+		<h2>Reactivnoe?</h2>
+		<div class="imgc">
+			<img src="pictures/ex.png">
+		</div>
+		<style type="text/css">
+		.imgc {
+			display: flex;
+			justify-content: center;
+			margin-top: 165px;
+		}
+		</style>
+	</section>
+
+	<section class="slide">
 		<h2>Reactivnoe?</h2>
 		<div class="imgc">
 			<img src="pictures/ex.png">
@@ -256,7 +290,7 @@ function createMarbleDiagram(obs$, cont) {
 		<ul>
 			<li class="next">Неудобная работа с подписками/отписками</li>
 			<li class="next">Отсутсвие операций модификации/комбинирования</li>
-			<li class="next">ошибки?</li>
+			<li class="next">Обработка ошибок?</li>
 		</ul>
 		<div class="next imgl">
 			<img src="pictures/fu.jpg">
@@ -275,7 +309,7 @@ function createMarbleDiagram(obs$, cont) {
 		<pre>
 			<code>const a$ = new Subject();</code>
 			<code>const b$ = new Subject();</code>
-			<code>const sum$ = Observable.combineLatest(a$, b$, (a, b) => a + b);</code>
+			<code>const sum$ = Observable.combineLatest(a$, b$, (a,b) => a + b)</code>
 			<code>&nbsp;</code>
 			<code>sum$.subscribe(x => console.log(x));</code>
 			<code>&nbsp;</code>
@@ -289,7 +323,7 @@ function createMarbleDiagram(obs$, cont) {
 		<pre>
 			<code>const a$ = new <strong>Subject()</strong>;</code>
 			<code>const b$ = new <strong>Subject()</strong>;</code>
-			<code>const sum$ = Observable.combineLatest(a$, b$, (a, b) => a + b);</code>
+			<code>const sum$ = Observable.combineLatest(a$, b$, (a,b) => a + b)</code>
 			<code>&nbsp;</code>
 			<code>sum$.subscribe(x => console.log(x));</code>
 			<code>&nbsp;</code>
@@ -304,7 +338,7 @@ function createMarbleDiagram(obs$, cont) {
 		<pre>
 			<code>const a$ = new Subject();</code>
 			<code>const b$ = new Subject();</code>
-			<code>const sum$ = Observable.<strong>combineLatest</strong>(a$, b$, (a, b) => a + b);</code>
+			<code>const sum$ = Observable.<strong>combineLatest</strong>(a$, b$, (a,b) => a + b)</code>
 			<code>&nbsp;</code>
 			<code>sum$.subscribe(x => console.log(x));</code>
 			<code>&nbsp;</code>
@@ -313,7 +347,7 @@ function createMarbleDiagram(obs$, cont) {
 		</pre>
 	</section>
 
-	<section class="slide exampleCL">
+	<section class="slide">
 		<h2>combineLatest</h2>
 		<div class="exampleCL">
 			<div class="stream">
@@ -333,19 +367,194 @@ function createMarbleDiagram(obs$, cont) {
 		</div>
 
 		<script type="text/javascript">
-			const example = document.querySelector('.exampleCL')
-			const contFirst = example.querySelector('.js-first');
-			const contSecond = example.querySelector('.js-second');
-			const contLatest = example.querySelector('.js-last');
-			const click$ = Observable.fromEvent(example, 'click', () => 1).scan((x, y) => x + y, 0);
-			const button$ = Observable.fromEvent(document, 'keypress', e => e.keyCode).filter(v => v >= 48 && v <= 57).map(v => v - 48);
-			const sum$ = Observable.combineLatest(click$, button$, (a, b) => a + b);
+			(() => {
+				const example = document.querySelector('.exampleCL')
+				const contFirst = example.querySelector('.js-first');
+				const contSecond = example.querySelector('.js-second');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 113).flatMap(x => rand()).share();
+				const button$ = keys().filter(v => v >= 48 && v <= 57).map(v => v - 48);
+				const sum$ = Observable.combineLatest(click$, button$, (a, b) => a + b);
 
-			createMarbleDiagram(click$, contFirst);
-			createMarbleDiagram(button$, contSecond);
-			createMarbleDiagram(sum$, contLatest);
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(button$, contSecond);
+				createMarbleDiagram(sum$, contLatest);
+			})()
 		</script>
 	</section>
+
+	<section class="slide">
+		<h2>Observable</h2>
+		<pre>
+			<code>const a$ = new Subject();</code>
+			<code>const b$ = new Subject();</code>
+			<code>const sum$ = Observable.combineLatest(a$, b$, (a,b) => a + b)</code>
+			<code>&nbsp;</code>
+			<code>sum$.subscribe(x => console.log(x));</code>
+			<code>&nbsp;</code>
+			<code>a$.onNext(10);</code>
+			<code>b$.onNext(2);</code>
+		</pre>
+		<div class="next imgle">
+			<img src="pictures/yes.PNG" style="width: 450px">
+		</div>
+		<style type="text/css">
+		.imgle {
+			position: absolute;
+			top: 43%;
+			left: 62%;
+		}
+		</style>
+	</section>
+<!-- 
+	<section class="slide">
+		<h2>Операции</h2>
+	</section> -->
+
+	<section class="slide">
+		<h2>Map</h2>
+		<div class="exampleMap">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">map(a => a * a):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleMap')
+				const contFirst = example.querySelector('.js-first');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 119).flatMap(x => rand()).share();
+				const sq$ = click$.map(v => v * v);
+
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(sq$, contLatest);
+			})() 
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>Filter</h2>
+		<div class="exampleFilter">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">filter(a => a % 2):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleFilter')
+				const contFirst = example.querySelector('.js-first');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 101).flatMap(x => rand()).share();
+				const odd$ = click$.filter(v => v % 2); // .filter(v => v === 101).do(x => console.log(x))
+
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(odd$, contLatest);
+			})() 
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>Merge</h2>
+		<div class="exampleMerge">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">b$:</div>
+				<div class="stream__marble js-second"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">combineLatest(a$, b$, (a, b) => a + b):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleMerge')
+				const contFirst = example.querySelector('.js-first');
+				const contSecond = example.querySelector('.js-second');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 114).map(v => 'keyboard');
+				const move$ = Observable.fromEvent(example, 'mousemove', () => 'mouse').throttle(500);
+				const merge$ = Observable.merge(click$, move$); // .filter(v => v === 101).do(x => console.log(x))
+
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(move$, contSecond);
+				createMarbleDiagram(merge$, contLatest);
+			})() 
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>Другие операции</h2>
+		<div id="row">
+			<ul class="next">
+				<li>combineLatest</li>
+				<li>concat</li>
+				<li>concatMap</li>
+				<li>connect</li>
+				<li>debounce</li>
+				<li>delay</li>
+				<li>dematerialize</li>
+			</ul>
+			<ul class="next">
+				<li>distinctUntilChanged</li>
+				<li>do</li>
+				<li>filter</li>
+				<li>finally</li>
+				<li>flatMap</li>
+				<li>flatMapLatest</li>
+				<li>map</li>
+			</ul>
+
+			<ul class="next">
+				<li>merge</li>
+				<li>mergeAll</li>
+				<li>multicast</li>
+				<li>publish</li>
+				<li>repeat</li>
+				<li>replay</li>
+				<li>retry</li>
+			</ul>
+			<ul class="next">
+				<li>sample</li>
+				<li>scan</li>
+				<li>select</li>
+				<li>skip</li>
+				<li>startWith</li>
+				<li>subscribe</li>
+				<li>switch</li>
+			</ul>
+		</div>
+		<style type="text/css">
+			#row {
+				display: flex;
+			}
+
+			#row ul {
+				padding-right: 50px;
+			}
+		</style>
+	</section>
+
 
 	<section class="slide">
 		<h2>Почему Обсервабл хорош для асинхронности</h2>
@@ -540,58 +749,6 @@ function createMarbleDiagram(obs$, cont) {
 			<code class="comment next">// Next value: 100</code>
 			<code class="comment next">// Next value: 300</code>
 		</pre>
-	</section>
-
-	<section class="slide">
-		<h2>Observable методы</h2>
-		<div id="row">
-			<ul class="next">
-				<li>combineLatest</li>
-				<li>concat</li>
-				<li>concatMap</li>
-				<li>connect</li>
-				<li>debounce</li>
-				<li>delay</li>
-				<li>dematerialize</li>
-			</ul>
-			<ul class="next">
-				<li>distinctUntilChanged</li>
-				<li>do</li>
-				<li>filter</li>
-				<li>finally</li>
-				<li>flatMap</li>
-				<li>flatMapLatest</li>
-				<li>map</li>
-			</ul>
-
-			<ul class="next">
-				<li>merge</li>
-				<li>mergeAll</li>
-				<li>multicast</li>
-				<li>publish</li>
-				<li>repeat</li>
-				<li>replay</li>
-				<li>retry</li>
-			</ul>
-			<ul class="next">
-				<li>sample</li>
-				<li>scan</li>
-				<li>select</li>
-				<li>skip</li>
-				<li>startWith</li>
-				<li>subscribe</li>
-				<li>switch</li>
-			</ul>
-		</div>
-		<style type="text/css">
-			#row {
-				display: flex;
-			}
-
-			#row ul {
-				padding-right: 50px;
-			}
-		</style>
 	</section>
 
 	<section class="slide"></section>
