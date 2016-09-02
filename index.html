@@ -149,6 +149,587 @@ function createMarbleDiagram(obs$, cont) {
 	</section>
 
 	<section class="slide">
+		<h2>Асинхронные операции</h2>
+		<ul>
+			<li class="next">AJAX</li>
+			<li class="next">DOM события</li>
+			<li class="next">Сокеты</li>
+			<li class="next">Воркеры</li>
+			<li class="next">Анимации</li>
+		</ul>
+	</section>
+
+	<section class="slide">
+		<h2>Callbacks</h2>
+	</section>
+
+	<section class="slide">
+		<h2>Callbacks hell</h2>
+		<pre>
+			<code>doSomeStaff(url, callback => {</code>
+			<code>	doSomeAnotherStaff(var, data => {</code>
+			<code>		doFinalStaff(data, url => {</code>
+			<code>			callback(url)</code>
+			<code>		})</code>
+			<code>	})</code>
+			<code>})</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>Promise</h2>
+		<pre>
+			<code>doSomeStaff(url) </code>
+			<code>	.then(var => doSomeAnotherStaff(var))</code>
+			<code>	.then(data => doFinalStaff(data))</code>
+			<code>	.then(url => callback(url));</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>Promise эффективно решает</h2>
+		<ul class="next">
+			<li>AJAX</li>
+			<li id="hide">DOM события</li>
+			<li id="hide">сокеты</li>
+			<li id="hide">Воркеры</li>
+			<li id="hide">Анимации</li>
+		</ul>
+		<style>
+			#hide {
+				text-decoration: line-through;
+			}
+		</style>
+	</section>
+
+	<section class="slide">
+		<img src="pictures/mainOnly.png" class="cover"></img>
+	</section>
+
+	<section class="slide">
+		<img src="pictures/main.png" class="cover"></img>
+	</section>
+
+	<section class="slide">
+		<img src="pictures/mainFilters.png" class="cover">
+	</section>
+
+	<!-- <section class="slide">
+		<img src="pictures/promise.png" class="cover">
+	</section> -->
+
+	<section class="slide">
+		<img src="pictures/promiseMap.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/cross.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/crossin.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/fu.jpg" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/pt.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/gen.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<h2>Generator</h2>
+		<pre>
+			<code>function* generate() {</code>
+			<code>  yield 1;</code>
+			<code>  yield 2;</code>
+			<code>  return 3;</code>
+			<code>}</code>
+			<span class="next">
+				<code>let generator = generate();</code>
+				<code>let one = generator.next(); <span class="next comment">// {value: 1, done: false}</span></code>
+				<code>let two = generator.next(); <span class="next comment">// {value: 2, done: false}</span></code>
+				<code>let three = generator.next(); <span class="next comment">// {value: 3, done: true}</span></code>
+			</span>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<img src="pictures/fu.jpg" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/pt.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/observer.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/vel.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code class="comment">function observable() {</code>
+			<code class="comment">  return 1;</code>
+			<code class="comment">  return 2;</code>
+			<code class="comment">  return 3;</code>
+			<code class="comment">}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code class="comment">function observable() {</code>
+			<code class="comment">  return 1;</code>
+			<code                >  setTimeout(() => {</code>
+			<code class="comment">    return 2;</code>
+			<code class="comment">    return 3;</code>
+			<code                >  }, 1000);</code>
+			<code class="comment">}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code class="comment">function observable() {</code>
+			<code class="comment">  return 1;</code>
+			<code                >  setTimeout(() => {</code>
+			<code                >    return 2;</code>
+			<code                >    return 3;</code>
+			<code                >  }, 1000);</code>
+			<code class="comment">}</code>
+		</pre>
+		<div class="next" id="qqq">dead code</div>
+		<style>
+			#qqq {
+				position: absolute;
+				top: 41%;
+				left: 47%;
+				font-size: 50px;
+			}
+		</style>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code><span class="comment">function observable(</span>observer<span class="comment">) {</span></code>
+			<code class="comment">  return 1;</code>
+			<code class="comment">  setTimeout(() => {</code>
+			<code class="comment">    return 2;</code>
+			<code class="comment">    return 3;</code>
+			<code class="comment">  }, 1000);</code>
+			<code class="comment">}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code><span class="comment">function observable(</span>observer<span class="comment">) {</span></code>
+			<code                >  observer(1);</code>
+			<code class="comment">  setTimeout(() => {</code>
+			<code                >    observer(2);</code>
+			<code                >    observer(3);</code>
+			<code class="comment">  }, 1000);</code>
+			<code class="comment">}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code class="comment">function observable(observer) {</code>
+			<code class="comment">  observer(1);</code>
+			<code                >  const id = setTimeout(() => {</code>
+			<code class="comment">    observer(2);</code>
+			<code class="comment">    observer(3);</code>
+			<code class="comment">  }, 1000);</code>
+			<code                >  return () => clearTimeout(id);</code>
+			<code class="comment">}</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<h2><a href="http://jsbin.com/xeweqa/edit?js,console">Example</a></h2>
+	</section>
+
+
+	<section class="slide">
+		<img src="pictures/reacvel.jpg" class="cover">
+	</section>
+
+	<section class="slide">
+		<img src="pictures/lreacvel.jpg" class="cover">
+	</section>
+
+	<section class="slide">
+		<h2>Marble diagrams</h2>
+		<div class="exampleM">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleM')
+				const contFirst = example.querySelector('.js-first');
+				const click$ = keys().filter(x => x === 122).map(x => 'Event');
+
+				createMarbleDiagram(click$, contFirst);
+			})()
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>Map</h2>
+		<div class="exampleMap">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">map(a => a * a):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleMap')
+				const contFirst = example.querySelector('.js-first');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 119).flatMap(x => rand()).share();
+				const sq$ = click$.map(v => v * v);
+
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(sq$, contLatest);
+			})() 
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>Filter</h2>
+		<div class="exampleFilter">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">filter(a => a % 2):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleFilter')
+				const contFirst = example.querySelector('.js-first');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 101).flatMap(x => rand()).share();
+				const odd$ = click$.filter(v => v % 2); // .filter(v => v === 101).do(x => console.log(x))
+
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(odd$, contLatest);
+			})() 
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>Merge</h2>
+		<div class="exampleMerge">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">b$:</div>
+				<div class="stream__marble js-second"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">merge(a$, b$):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleMerge')
+				const contFirst = example.querySelector('.js-first');
+				const contSecond = example.querySelector('.js-second');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 114).map(v => 'keyboard');
+				const move$ = Observable.fromEvent(example, 'mousemove', () => 'mouse').throttle(2500);
+				const merge$ = Observable.merge(click$, move$); // .filter(v => v === 101).do(x => console.log(x))
+
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(move$, contSecond);
+				createMarbleDiagram(merge$, contLatest);
+			})() 
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>combineLatest</h2>
+		<div class="exampleCL">
+			<div class="stream">
+				<div class="stream__name">a$:</div>
+				<div class="stream__marble js-first"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">b$:</div>
+				<div class="stream__marble js-second"></div>
+			</div>
+
+			<div class="stream">
+				<div class="stream__name">combineLatest(a$, b$, (a, b) => a + b):</div>
+				<div class="stream__marble js-last"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			(() => {
+				const example = document.querySelector('.exampleCL')
+				const contFirst = example.querySelector('.js-first');
+				const contSecond = example.querySelector('.js-second');
+				const contLatest = example.querySelector('.js-last');
+				const click$ = keys().filter(v => v === 113).flatMap(x => rand()).share();
+				const button$ = keys().filter(v => v >= 48 && v <= 57).map(v => v - 48);
+				const sum$ = Observable.combineLatest(click$, button$, (a, b) => a + b);
+
+				createMarbleDiagram(click$, contFirst);
+				createMarbleDiagram(button$, contSecond);
+				createMarbleDiagram(sum$, contLatest);
+			})()
+		</script>
+	</section>
+
+	<section class="slide">
+		<h2>Другие операции</h2>
+		<div id="row" class="next">
+			<ul>
+				<li>combineLatest</li>
+				<li>concat</li>
+				<li>concatMap</li>
+				<li>connect</li>
+				<li>debounce</li>
+				<li>delay</li>
+				<li>dematerialize</li>
+			</ul>
+			<ul>
+				<li>distinctUntilChanged</li>
+				<li>do</li>
+				<li>filter</li>
+				<li>finally</li>
+				<li>flatMap</li>
+				<li>flatMapLatest</li>
+				<li>map</li>
+			</ul>
+
+			<ul>
+				<li>merge</li>
+				<li>mergeAll</li>
+				<li>multicast</li>
+				<li>publish</li>
+				<li>repeat</li>
+				<li>replay</li>
+				<li>retry</li>
+			</ul>
+			<ul>
+				<li>sample</li>
+				<li>scan</li>
+				<li>select</li>
+				<li>skip</li>
+				<li>startWith</li>
+				<li>subscribe</li>
+				<li>switch</li>
+			</ul>
+		</div>
+		<style type="text/css">
+			#row {
+				display: flex;
+			}
+
+			#row ul {
+				padding-right: 50px;
+			}
+		</style>
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>var producer = new Producer();</code>
+			<code>var hot = new Observable((observer) => {</code>
+			<code>  // have observer listen to producer here</code>
+			<code>});</code>
+		</pre>
+	</section>
+
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>var cold = new Observable((observer) => {</code>
+			<code>  var producer = new Producer();</code>
+			<code>  // have observer listen to producer here</code>
+			<code>});</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<img src="pictures/hc.jpg" class="cover">
+	</section>
+
+	<section class="slide">
+		<h2>&nbsp;</h2>
+		<pre>
+			<code>const source = new Observable((observer) => {</code>
+			<code>	const socket = new WebSocket('ws://someurl');</code>
+			<code>	socket.addEventListener('message', (e) => observer(e));</code>
+			<code>	return () => socket.close();</code>
+			<code>});</code>
+		</pre>
+	</section>
+
+	<section class="slide">
+		<img src="pictures/kangax.png" class="cover">
+	</section>
+
+	<section class="slide">
+		<h2>Спасибо за внимание</h2>
+		<div class="RW">
+			<div class="CL">
+				<div class="NM">A</div>
+				<input type="text" id="cellA"/>
+			</div>
+			<div class="CL">
+				<div class="NM">B</div>
+				<input type="text" id="cellB"/>
+			</div>
+			<div class="CL">
+				<div class="NM">C</div>
+				<input type="text" id="cellC"/>
+			</div>
+		</div>
+
+		<style type="text/css">
+			.RW {
+				display: flex;
+				justify-content: space-around;
+				margin-top: 195px;
+			}
+
+			.CL {
+			    display: flex;
+			    flex-direction: column;
+			    justify-content: center;
+			    align-items: center;
+			}
+		</style>
+		<script type="text/javascript">
+			(() => {
+				const { Observable, Subject, ReplaySubject } = Rx;
+
+				function cell({
+				    input,
+				    dependStr,
+				    dependObs,
+				}) {
+				    const changeProxy$ = new Subject();
+				    const blur$ = Observable.fromEvent(input, 'blur', e => () => true);
+				    const lastChange$ = blur$.withLatestFrom(changeProxy$, (blur, value) => value);
+				    const changeEvent$ = Observable.fromEvent(input, 'change', e => e.target.value);
+				    const change$ = Observable.merge(lastChange$, changeEvent$);
+
+				    const startWith = char => str => str[0] === char;
+				    const not = value => !value;
+				    const compose = (f, g) => v => f(g(v));
+
+				    const simpleValue$ = changeProxy$.filter(compose(not, startWith('='))).do(x => console.log('value', x));
+				    
+				    const computeValue$ = changeProxy$.filter(startWith('=')).do(x => console.log('formula', x));
+
+				    const functionBody$ = computeValue$.map(v => v.substring(1));
+				    const result$ = functionBody$.flatMapLatest(
+				        body => Observable.combineLatest(...dependObs, eval(`(${dependStr}) => ${body}`))
+				    ).share().do(x => console.log('res', x));
+
+				    const value$ = Observable.merge(result$, simpleValue$).share().do(x => console.log('result value', x));
+
+				    const focus$ = Observable.fromEvent(input, 'focus', () => true);
+
+				    const forml$ = focus$.withLatestFrom(changeProxy$, (focus, value) => value).do(x => console.log('forml ', x));
+
+				    const inputChange$ = Observable.merge(forml$, result$);
+
+				    change$.subscribe(changeProxy$);
+
+				    inputChange$.subscribe(x => {
+				        console.log('set ',x);
+				        input.value = x;
+				    });
+
+				    return value$;
+				}
+
+				const proxyA$ = new ReplaySubject(1);
+				const proxyB$ = new ReplaySubject(1);
+				const proxyC$ = new ReplaySubject(1);
+
+				const valueA$ = cell({
+				    input: document.querySelector('#cellA'),
+				    dependStr: 'B, C',
+				    dependObs: [proxyB$, proxyC$]
+				})
+
+				const valueB$ = cell({
+				    input: document.querySelector('#cellB'),
+				    dependStr: 'A, C',
+				    dependObs: [proxyA$, proxyC$]
+				})
+
+				const valueC$ = cell({
+				    input: document.querySelector('#cellC'),
+				    dependStr: 'A, B',
+				    dependObs: [proxyA$, proxyB$]
+				})
+
+				valueA$.subscribe(proxyA$);
+				valueB$.subscribe(proxyB$);
+				valueC$.subscribe(proxyC$);
+			})()
+		</script>
+	</section>
+
+	<div class="progress"></div>
+	<script src="node_modules/shower-core/shower.min.js"></script>
+	<!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
+
+
+<!-- 
+<section class="slide">
 		<h2>FRP</h2>
 		<div class="next">
 			<p>функциональное</p>
@@ -406,10 +987,6 @@ function createMarbleDiagram(obs$, cont) {
 		}
 		</style>
 	</section>
-<!-- 
-	<section class="slide">
-		<h2>Операции</h2>
-	</section> -->
 
 	<section class="slide">
 		<h2>Map</h2>
@@ -503,58 +1080,7 @@ function createMarbleDiagram(obs$, cont) {
 		</script>
 	</section>
 
-	<section class="slide">
-		<h2>Другие операции</h2>
-		<div id="row">
-			<ul class="next">
-				<li>combineLatest</li>
-				<li>concat</li>
-				<li>concatMap</li>
-				<li>connect</li>
-				<li>debounce</li>
-				<li>delay</li>
-				<li>dematerialize</li>
-			</ul>
-			<ul class="next">
-				<li>distinctUntilChanged</li>
-				<li>do</li>
-				<li>filter</li>
-				<li>finally</li>
-				<li>flatMap</li>
-				<li>flatMapLatest</li>
-				<li>map</li>
-			</ul>
-
-			<ul class="next">
-				<li>merge</li>
-				<li>mergeAll</li>
-				<li>multicast</li>
-				<li>publish</li>
-				<li>repeat</li>
-				<li>replay</li>
-				<li>retry</li>
-			</ul>
-			<ul class="next">
-				<li>sample</li>
-				<li>scan</li>
-				<li>select</li>
-				<li>skip</li>
-				<li>startWith</li>
-				<li>subscribe</li>
-				<li>switch</li>
-			</ul>
-		</div>
-		<style type="text/css">
-			#row {
-				display: flex;
-			}
-
-			#row ul {
-				padding-right: 50px;
-			}
-		</style>
-	</section>
-
+	
 
 	<section class="slide">
 		<h2>Почему Обсервабл хорош для асинхронности</h2>
@@ -617,17 +1143,7 @@ function createMarbleDiagram(obs$, cont) {
 		<h2>Что такое RxJS</h2>
 	</section>
 
-	<section class="slide">
-		<h2>&nbsp;</h2>
-		<pre>
-			<code>function observable() {</code>
-			<code>  return 1;</code>
-			<code>  setTimeout(() => {</code>
-			<code>    return 42;</code>
-			<code>  }, 1000);</code>
-			<code>}</code>
-		</pre>
-	</section>
+	
 
 	<section class="slide">
 		<h2>&nbsp;</h2>
@@ -753,9 +1269,4 @@ function createMarbleDiagram(obs$, cont) {
 
 	<section class="slide"></section>
 
-	<div class="progress"></div>
-	<script src="node_modules/shower-core/shower.min.js"></script>
-	<!-- Copyright © 2015 Yours Truly, Famous Inc. -->
-	<!-- Photos by John Carey, fiftyfootshadows.net -->
-</body>
-</html>
+ -->
