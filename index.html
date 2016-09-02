@@ -44,7 +44,7 @@ function createMarbleDiagram(obs$, cont) {
 
         rafId = requestAnimationFrame(step);
 
-        return () => cancelAnimationFrame(rafId); 
+        return () => cancelAnimationFrame(rafId);
     })
 
     const diagramTemplate = () => `
@@ -418,7 +418,7 @@ function createMarbleDiagram(obs$, cont) {
 
 				createMarbleDiagram(click$, contFirst);
 				createMarbleDiagram(sq$, contLatest);
-			})() 
+			})()
 		</script>
 	</section>
 
@@ -446,7 +446,7 @@ function createMarbleDiagram(obs$, cont) {
 
 				createMarbleDiagram(click$, contFirst);
 				createMarbleDiagram(odd$, contLatest);
-			})() 
+			})()
 		</script>
 	</section>
 
@@ -482,7 +482,7 @@ function createMarbleDiagram(obs$, cont) {
 				createMarbleDiagram(click$, contFirst);
 				createMarbleDiagram(move$, contSecond);
 				createMarbleDiagram(merge$, contLatest);
-			})() 
+			})()
 		</script>
 	</section>
 
@@ -595,9 +595,6 @@ function createMarbleDiagram(obs$, cont) {
 		</pre>
 	</section>
 
-	<section class="slide">
-		<img src="pictures/hc.jpg" class="cover">
-	</section>
 
 	<section class="slide">
 		<h2>&nbsp;</h2>
@@ -608,6 +605,10 @@ function createMarbleDiagram(obs$, cont) {
 			<code>	return () => socket.close();</code>
 			<code>});</code>
 		</pre>
+	</section>
+
+	<section class="slide">
+		<img src="pictures/hc.jpg" class="cover">
 	</section>
 
 	<section class="slide">
@@ -665,7 +666,7 @@ function createMarbleDiagram(obs$, cont) {
 				    const compose = (f, g) => v => f(g(v));
 
 				    const simpleValue$ = changeProxy$.filter(compose(not, startWith('='))).do(x => console.log('value', x));
-				    
+
 				    const computeValue$ = changeProxy$.filter(startWith('=')).do(x => console.log('formula', x));
 
 				    const functionBody$ = computeValue$.map(v => v.substring(1));
@@ -728,7 +729,7 @@ function createMarbleDiagram(obs$, cont) {
 </html>
 
 
-<!-- 
+<!--
 <section class="slide">
 		<h2>FRP</h2>
 		<div class="next">
@@ -1012,7 +1013,7 @@ function createMarbleDiagram(obs$, cont) {
 
 				createMarbleDiagram(click$, contFirst);
 				createMarbleDiagram(sq$, contLatest);
-			})() 
+			})()
 		</script>
 	</section>
 
@@ -1040,7 +1041,7 @@ function createMarbleDiagram(obs$, cont) {
 
 				createMarbleDiagram(click$, contFirst);
 				createMarbleDiagram(odd$, contLatest);
-			})() 
+			})()
 		</script>
 	</section>
 
@@ -1076,11 +1077,11 @@ function createMarbleDiagram(obs$, cont) {
 				createMarbleDiagram(click$, contFirst);
 				createMarbleDiagram(move$, contSecond);
 				createMarbleDiagram(merge$, contLatest);
-			})() 
+			})()
 		</script>
 	</section>
 
-	
+
 
 	<section class="slide">
 		<h2>Почему Обсервабл хорош для асинхронности</h2>
@@ -1143,7 +1144,7 @@ function createMarbleDiagram(obs$, cont) {
 		<h2>Что такое RxJS</h2>
 	</section>
 
-	
+
 
 	<section class="slide">
 		<h2>&nbsp;</h2>
